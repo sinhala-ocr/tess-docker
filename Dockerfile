@@ -1,10 +1,3 @@
-#
-# Docker image for compiling Tesseract 4 (and Leptonica) from source code.
-# Includes SSH Server (root password is root).
-# https://github.com/tesseract-ocr/tesseract/wiki/Compiling#linux
-# http://www.leptonica.org/source/README.html
-#
-
 FROM ubuntu:16.04
 
 RUN apt-get update && apt-get install -y \
@@ -58,17 +51,12 @@ ENV TES_REPO_URL https://github.com/tesseract-ocr/tesseract.git
 ENV TES_SRC_DIR ${BASE_DIR}/tesseract
 ENV TESSDATA_PREFIX /usr/local/share/tessdata
 
-# Custom directories
-ENV TESSDATA_DIR /home/tessdata
-
 RUN mkdir ${SCRIPTS_DIR}
 RUN mkdir ${PKG_DIR}
 RUN mkdir ${BASE_DIR}
 RUN mkdir ${TESSDATA_PREFIX}
-RUN mkdir ${TESSDATA_DIR}
 
 COPY ./container-scripts/* ${SCRIPTS_DIR}/
-COPY ./tessdata/* ${TESSDATA_DIR}/
 RUN chmod +x ${SCRIPTS_DIR}/*
 RUN ${SCRIPTS_DIR}/repos_clone.sh
 RUN ${SCRIPTS_DIR}/tessdata_download.sh
